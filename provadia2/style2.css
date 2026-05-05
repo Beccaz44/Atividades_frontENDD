@@ -1,0 +1,261 @@
+/* ===== RESET E BASE ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Georgia', serif;
+  background: #f0f4f8;
+  color: #2d3748;
+  line-height: 1.8;
+}
+
+/* ===== HEADER — centralizado ===== */
+header {
+  background: linear-gradient(135deg, #1a3a5c 0%, #2e7d32 100%);
+  color: #ffffff;
+  text-align: center;
+  padding: 48px 24px 32px 24px;
+}
+
+header h1 {
+  font-size: 2.6rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+header h2 {
+  font-size: 1.2rem;
+  color: #c8e6c9;
+  font-weight: normal;
+}
+
+/* ===== MAIN ===== */
+main {
+  max-width: 960px;
+  margin: 40px auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ===== CARTÕES DOS GRUPOS ===== */
+.grupo-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 28px 32px;
+  border-left: 6px solid #2e7d32;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.09);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.2s;
+}
+
+.grupo-card:hover {
+  transform: translateY(-3px);
+}
+
+.grupo-card h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1a3a5c;
+}
+
+.grupo-card h4 {
+  font-size: 1rem;
+  color: #2e7d32;
+  font-weight: bold;
+  margin-top: 6px;
+}
+
+.grupo-card ul {
+  padding-left: 22px;
+}
+
+.grupo-card ul li {
+  font-size: 1rem;
+  color: #4a5568;
+  padding: 3px 0;
+}
+
+/* ===== DETAILS / SAIBA MAIS ===== */
+details {
+  background-color: #e8f5e9;
+  border-radius: 10px;
+  padding: 10px 16px;
+  border: 1px solid #a5d6a7;
+  margin-top: 8px;
+}
+
+details summary {
+  font-weight: bold;
+  color: #2e7d32;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+details p {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: #4a5568;
+  text-align: justify;
+}
+
+/* ===== BOTÃO PRÓXIMO ===== */
+#area-botao {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#btnProximo {
+  padding: 12px 36px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #1a3a5c;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+#btnProximo:hover {
+  background-color: #2e7d32;
+  transform: scale(1.04);
+}
+
+/* ===== ÁREA DE JOGADORES ===== */
+#area-jogadores {
+  margin-top: 10px;
+}
+
+.secao-titulo {
+  font-size: 1.4rem;
+  color: #1a3a5c;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.cards-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* ===== CARD DO JOGADOR ===== */
+.jogador-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  width: 230px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.2s;
+}
+
+.jogador-card:hover {
+  transform: translateY(-4px);
+}
+
+.jogador-img {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #2e7d32;
+  background-color: #e2e8f0;
+}
+
+.jogador-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.jogador-info h3 {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #1a3a5c;
+  text-align: center;
+}
+
+.jogador-info p {
+  font-size: 0.88rem;
+  color: #4a5568;
+  text-align: center;
+}
+
+.jogador-card button {
+  margin-top: 10px;
+  padding: 8px 22px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #2e7d32;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.jogador-card button:hover {
+  background-color: #1a3a5c;
+}
+
+/* ===== PLACEHOLDER ===== */
+.placeholder {
+  color: #b0b0b0;
+  font-style: italic;
+}
+
+.card-text {
+  color: #2d3748;
+  font-style: normal;
+}
+
+/* ===== BOTÃO ADICIONAR ===== */
+#area-add {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#btnAdd {
+  padding: 12px 32px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #2e7d32;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+#btnAdd:hover {
+  background-color: #1a3a5c;
+  transform: scale(1.04);
+}
+
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  padding: 24px;
+  background-color: #1a3a5c;
+  color: #a0aec0;
+  font-size: 0.85rem;
+  margin-top: 20px;
+}
