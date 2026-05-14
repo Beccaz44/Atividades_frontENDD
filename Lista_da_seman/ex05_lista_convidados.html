@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 05 – Lista VIP Infinity Bank</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@300;700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: #1a1209;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-family: 'DM Sans', sans-serif;
+            color: #f0e6cc;
+        }
+
+        .card {
+            background: #231a0c;
+            border: 1px solid #3d2e14;
+            border-radius: 20px;
+            padding: 44px 36px;
+            width: 100%;
+            max-width: 520px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .badge {
+            font-size: 0.68rem;
+            color: #c9a84c;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: #f0e6cc;
+            line-height: 1.1;
+            margin-bottom: 4px;
+        }
+
+        .subtitle { color: #7a6040; font-size: 0.88rem; margin-bottom: 32px; }
+
+        .add-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            background: #1a1209;
+            border: 1px solid #3d2e14;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            color: #f0e6cc;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus { border-color: #c9a84c; }
+        input[type="text"]::placeholder { color: #5a4020; }
+
+        .btn-add {
+            background: #c9a84c;
+            color: #1a1209;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-add:hover { opacity: 0.85; }
+
+        #contador {
+            font-size: 0.78rem;
+            color: #7a6040;
+            margin-bottom: 14px;
+        }
+
+        #lista { list-style: none; }
+
+        .convidado {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 0;
+            border-bottom: 1px solid #2e2010;
+            animation: slideIn 0.25s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        .convidado:last-child { border-bottom: none; }
+
+        .numero {
+            font-family: 'Fraunces', serif;
+            font-size: 0.85rem;
+            color: #5a4020;
+            min-width: 24px;
+        }
+
+        .nome {
+            flex: 1;
+            font-size: 0.95rem;
+            transition: all 0.25s;
+        }
+
+        .nome.presente {
+            text-decoration: line-through;
+            color: #5a4020;
+        }
+
+        .acoes { display: flex; gap: 6px; }
+
+        .acoes button {
+            border: none;
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 0.75rem;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.15s;
+        }
+
+        .acoes button:hover { opacity: 0.8; }
+
+        .btn-ok  { background: #2ecc71; color: #0a1f10; }
+        .btn-ed  { background: #3498db; color: #0a1830; }
+        .btn-del { background: #e74c3c; color: #200a0a; }
+
+        .vazio {
+            text-align: center;
+            color: #5a4020;
+            font-size: 0.9rem;
+            padding: 30px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <p class="badge">👥 Exercício 05</p>
+        <h1>Lista de<br>Convidados VIP</h1>
+        <p class="subtitle">Infinity Bank — Evento de Inauguração</p>
+
+        <div class="add-row">
+            <input type="text" id="inputNome" placeholder="Nome do convidado...">
+            <button class="btn-add" onclick="adicionar()">+</button>
+        </div>
+
+        <p id="contador">Nenhum convidado ainda</p>
+        <ul id="lista"></ul>
+    </div>
+
+    <script>
+        const lista = [];
+
+        document.getElementById('inputNome').addEventListener('keydown', e => {
+            if (e.key === 'Enter') adicionar();
+        });
+
+        function render() {
+            const ul = document.getElementById('lista');
+            const contador = document.getElementById('contador');
+
+            if (lista.length === 0) {
+                ul.innerHTML = '<li class="vazio">A lista está vazia</li>';
+                contador.textContent = 'Nenhum convidado ainda';
+                return;
+            }
+
+            const presentes = lista.filter(c => c.presente).length;
+            contador.textContent = `${lista.length} convidado(s) · ${presentes} presente(s)`;
+
+            ul.innerHTML = '';
+            lista.forEach((c, i) => {
+                const li = document.createElement('li');
+                li.className = 'convidado';
+                li.innerHTML = `
+                    <span class="numero">${String(i + 1).padStart(2, '0')}</span>
+                    <span class="nome ${c.presente ? 'presente' : ''}">${c.nome}</span>
+                    <div class="acoes">
+                        <button class="btn-ok"  onclick="concluir(${i})">${c.presente ? 'Desfazer' : 'Concluir'}</button>
+                        <button class="btn-ed"  onclick="editar(${i})">Editar</button>
+                        <button class="btn-del" onclick="excluir(${i})">Excluir</button>
+                    </div>
+                `;
+                ul.appendChild(li);
+            });
+        }
+
+        function adicionar() {
+            const input = document.getElementById('inputNome');
+            const nome = input.value.trim();
+            if (!nome) return;
+            lista.push({ nome, presente: false });
+            input.value = '';
+            input.focus();
+            render();
+        }
+
+        function concluir(i) {
+            lista[i].presente = !lista[i].presente;
+            render();
+        }
+
+        function editar(i) {
+            const novo = prompt('Novo nome:', lista[i].nome);
+            if (novo && novo.trim()) {
+                lista[i].nome = novo.trim();
+                render();
+            }
+        }
+
+        function excluir(i) {
+            lista.splice(i, 1);
+            render();
+        }
+
+        render();
+    </script>
+</body>
+</html>

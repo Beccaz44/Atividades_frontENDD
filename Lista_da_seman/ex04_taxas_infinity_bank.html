@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 04 – Taxas Infinity Bank</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Manrope:wght@300;600;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: #060810;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-family: 'Manrope', sans-serif;
+            color: #e8eaf0;
+        }
+
+        .card {
+            background: #0e1118;
+            border: 1px solid #1e2435;
+            border-radius: 20px;
+            padding: 48px 40px;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .glow {
+            position: absolute;
+            top: -60px; left: 50%;
+            transform: translateX(-50%);
+            width: 200px; height: 120px;
+            background: radial-gradient(ellipse, rgba(230,126,34,0.3) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .badge {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.68rem;
+            color: #e67e22;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 6px; }
+        .subtitle { color: #5a6280; font-size: 0.9rem; margin-bottom: 36px; }
+
+        .form-group { margin-bottom: 18px; }
+
+        label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: #5a6280;
+            margin-bottom: 7px;
+        }
+
+        input, select {
+            width: 100%;
+            background: #060810;
+            border: 1px solid #1e2435;
+            border-radius: 8px;
+            padding: 13px 15px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1rem;
+            color: #e8eaf0;
+            outline: none;
+            transition: border-color 0.2s;
+            appearance: none;
+        }
+
+        input:focus, select:focus { border-color: #e67e22; }
+
+        .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+        button {
+            width: 100%;
+            margin-top: 8px;
+            padding: 15px;
+            background: linear-gradient(135deg, #e67e22, #f39c12);
+            color: #060810;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 800;
+            font-size: 0.95rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+
+        button:hover { opacity: 0.88; }
+        button:active { transform: scale(0.98); }
+
+        #resumo {
+            margin-top: 28px;
+            display: none;
+            animation: fadeUp 0.3s ease;
+        }
+
+        @keyframes fadeUp {
+            from { opacity:0; transform: translateY(8px); }
+            to   { opacity:1; transform: translateY(0); }
+        }
+
+        .resumo-titulo {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #5a6280;
+            margin-bottom: 14px;
+        }
+
+        .linha {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #1e2435;
+            font-size: 0.92rem;
+        }
+
+        .linha:last-child { border-bottom: none; }
+        .linha .label { color: #7a8099; }
+        .linha .valor { font-family: 'IBM Plex Mono', monospace; color: #e8eaf0; }
+
+        .linha.destaque .label { color: #fff; font-weight: 700; }
+        .linha.destaque .valor { color: #e67e22; font-size: 1.1rem; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="glow"></div>
+        <p class="badge">💳 Exercício 04</p>
+        <h1>Infinity Bank</h1>
+        <p class="subtitle">Simulador de taxas e parcelas</p>
+
+        <div class="form-group">
+            <label>Bandeira do Cartão</label>
+            <select id="bandeira">
+                <option value="visa">Visa (2%)</option>
+                <option value="master">Mastercard (1,85%)</option>
+                <option value="elo">Elo (3%)</option>
+            </select>
+        </div>
+
+        <div class="grid2">
+            <div class="form-group">
+                <label>Valor da Venda (R$)</label>
+                <input type="number" id="valor" placeholder="0,00" min="0" step="0.01">
+            </div>
+            <div class="form-group">
+                <label>Nº de Parcelas</label>
+                <input type="number" id="parcelas" placeholder="1" min="1" max="24">
+            </div>
+        </div>
+
+        <button onclick="calcular()">Simular Venda</button>
+
+        <div id="resumo">
+            <p class="resumo-titulo">Resumo da Transação</p>
+            <div class="linha"><span class="label">Valor da venda</span><span class="valor" id="r-venda">—</span></div>
+            <div class="linha"><span class="label">Taxa bandeira</span><span class="valor" id="r-taxa">—</span></div>
+            <div class="linha"><span class="label">Taxa mensal (R$ 12,50 × parcelas)</span><span class="valor" id="r-mensal">—</span></div>
+            <div class="linha"><span class="label">Juros (0,35% × parcelas)</span><span class="valor" id="r-juros">—</span></div>
+            <div class="linha"><span class="label">Valor total</span><span class="valor" id="r-total">—</span></div>
+            <div class="linha destaque"><span class="label">Valor por parcela</span><span class="valor" id="r-parcela">—</span></div>
+        </div>
+    </div>
+
+    <script>
+        function fmt(n) { return 'R$ ' + n.toFixed(2).replace('.', ','); }
+
+        function calcular() {
+            const venda = parseFloat(document.getElementById('valor').value) || 0;
+            const parcelas = parseInt(document.getElementById('parcelas').value) || 1;
+            const bandeira = document.getElementById('bandeira').value;
+
+            let taxaPerc;
+            switch (bandeira) {
+                case 'visa':   taxaPerc = 0.02;   break;
+                case 'master': taxaPerc = 0.0185; break;
+                case 'elo':    taxaPerc = 0.03;   break;
+            }
+
+            const taxaBandeira = venda * taxaPerc;
+            const taxaMensal = 12.50 * parcelas;
+            const juros = venda * (0.0035 * parcelas);
+            const total = venda + taxaBandeira + taxaMensal + juros;
+            const porParcela = total / parcelas;
+
+            document.getElementById('r-venda').textContent  = fmt(venda);
+            document.getElementById('r-taxa').textContent   = fmt(taxaBandeira);
+            document.getElementById('r-mensal').textContent = fmt(taxaMensal);
+            document.getElementById('r-juros').textContent  = fmt(juros);
+            document.getElementById('r-total').textContent  = fmt(total);
+            document.getElementById('r-parcela').textContent = `${parcelas}× ${fmt(porParcela)}`;
+
+            document.getElementById('resumo').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
