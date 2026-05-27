@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 07 – Card Guard Infinity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;600;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: #080c10;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-family: 'Barlow', sans-serif;
+            color: #c8d8e8;
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .card-preview {
+            background: linear-gradient(135deg, #0f2440, #1a3a60);
+            border-radius: 16px;
+            padding: 28px 28px 24px;
+            margin-bottom: 20px;
+            border: 1px solid #1e3a5a;
+            position: relative;
+            overflow: hidden;
+            min-height: 130px;
+        }
+
+        .card-preview::after {
+            content: '';
+            position: absolute;
+            right: -30px; top: -30px;
+            width: 160px; height: 160px;
+            border-radius: 50%;
+            background: rgba(0,180,255,0.06);
+        }
+
+        .card-logo {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            color: #00c8ff;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .card-number-display {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.45rem;
+            letter-spacing: 6px;
+            margin: 20px 0 8px;
+            color: #fff;
+            word-break: break-all;
+        }
+
+        .card-bandeira {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .panel {
+            background: #0d1520;
+            border: 1px solid #1a2a3a;
+            border-radius: 16px;
+            padding: 36px 32px;
+        }
+
+        .badge {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            color: #00c8ff;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        h1 { font-size: 1.7rem; font-weight: 800; margin-bottom: 6px; color: #e8f4ff; }
+        .subtitle { color: #4a6a8a; font-size: 0.88rem; margin-bottom: 32px; }
+
+        label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #4a6a8a;
+            margin-bottom: 7px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            background: #080c10;
+            border: 1px solid #1a2a3a;
+            border-radius: 8px;
+            padding: 13px 16px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.1rem;
+            letter-spacing: 4px;
+            color: #e8f4ff;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus { border-color: #00c8ff; }
+
+        button {
+            background: #00c8ff;
+            color: #080c10;
+            border: none;
+            border-radius: 8px;
+            padding: 13px 18px;
+            font-family: 'Barlow', sans-serif;
+            font-weight: 800;
+            font-size: 0.85rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: opacity 0.2s;
+        }
+
+        button:hover { opacity: 0.85; }
+
+        #painel {
+            margin-top: 24px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .status-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 16px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+        }
+
+        .status-bar.valido   { background: rgba(0,200,100,0.1); border: 1px solid #00c864; color: #00c864; }
+        .status-bar.invalido { background: rgba(231,76,60,0.1);  border: 1px solid #e74c3c; color: #e74c3c; }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .info-box {
+            background: #080c10;
+            border: 1px solid #1a2a3a;
+            border-radius: 8px;
+            padding: 12px 14px;
+        }
+
+        .info-box .lbl {
+            font-size: 0.65rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #4a6a8a;
+            margin-bottom: 4px;
+        }
+
+        .info-box .val {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.95rem;
+            color: #e8f4ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="card-preview">
+            <div class="card-logo">∞ Infinity Bank · Card Guard</div>
+            <div class="card-number-display" id="prev-numero">•••• •••• •••• ••••</div>
+            <div class="card-bandeira" id="prev-bandeira">–</div>
+        </div>
+
+        <div class="panel">
+            <p class="badge">🛡️ Exercício 07</p>
+            <h1>Validador de<br>Segurança</h1>
+            <p class="subtitle">Algoritmo de Luhn + Identificação de Bandeira</p>
+
+            <label>Número do Cartão (até 16 dígitos)</label>
+            <div class="input-row">
+                <input type="text" id="cartao" placeholder="0000 0000 0000 0000" maxlength="19">
+                <button onclick="analisar()">Analisar</button>
+            </div>
+
+            <div id="painel">
+                <div class="status-bar" id="status-bar">—</div>
+                <div class="info-grid">
+                    <div class="info-box"><div class="lbl">Bandeira</div><div class="val" id="i-bandeira">—</div></div>
+                    <div class="info-box"><div class="lbl">Setor Industrial</div><div class="val" id="i-setor">—</div></div>
+                    <div class="info-box"><div class="lbl">Banco Emissor</div><div class="val" id="i-banco">—</div></div>
+                    <div class="info-box"><div class="lbl">Dígitos</div><div class="val" id="i-digitos">—</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const input = document.getElementById('cartao');
+
+        input.addEventListener('input', () => {
+            let v = input.value.replace(/\D/g, '').slice(0, 16);
+            input.value = v.replace(/(.{4})/g, '$1 ').trim();
+            const num = v.padEnd(16, '•');
+            document.getElementById('prev-numero').textContent =
+                num.slice(0,4) + ' ' + num.slice(4,8) + ' ' + num.slice(8,12) + ' ' + num.slice(12,16);
+        });
+
+        input.addEventListener('keydown', e => { if (e.key === 'Enter') analisar(); });
+
+        function luhn(nums) {
+            const reversed = [...nums].reverse();
+            const soma = reversed.reduce((acc, d, i) => {
+                if (i % 2 === 1) {
+                    let x = d * 2;
+                    if (x > 9) x -= 9;
+                    return acc + x;
+                }
+                return acc + d;
+            }, 0);
+            return soma % 10 === 0;
+        }
+
+        function identificarBandeira(num) {
+            if (/^4/.test(num)) return 'Visa';
+            if (/^5[1-5]/.test(num) || /^2(2[2-9]|[3-6]\d|7[01])/.test(num)) return 'Mastercard';
+            if (/^3[47]/.test(num)) return 'Amex';
+            if (/^(636368|438935|504175|451416|636297|5067|4576|4011)/.test(num)) return 'Elo';
+            if (/^60698[56]|^6062|^6090|^636110/.test(num)) return 'Hipercard';
+            return 'Desconhecida';
+        }
+
+        function identificarSetor(primeiro) {
+            const setores = {
+                '1': 'Companhias Aéreas',
+                '2': 'Companhias Aéreas / Financeiro',
+                '3': 'Viagens e Entretenimento',
+                '4': 'Bancário e Financeiro',
+                '5': 'Bancário e Financeiro',
+                '6': 'Comercial e Bancário',
+                '7': 'Petróleo e Energia',
+                '8': 'Telecomunicações',
+                '9': 'Governamental'
+            };
+            return setores[primeiro] || 'Indefinido';
+        }
+
+        function identificarBanco(num) {
+            if (num.startsWith('4')) return 'Banco emissor Visa';
+            if (num.startsWith('5')) return 'Banco emissor Mastercard';
+            if (num.startsWith('37') || num.startsWith('34')) return 'American Express';
+            if (num.startsWith('636')) return 'Elo / Hipercard';
+            return 'Emissor não mapeado';
+        }
+
+        function analisar() {
+            const digits = input.value.replace(/\D/g, '');
+            const painel = document.getElementById('painel');
+            const statusBar = document.getElementById('status-bar');
+            painel.style.display = 'block';
+
+            if (digits.length < 13 || digits.length > 16) {
+                statusBar.className = 'status-bar invalido';
+                statusBar.textContent = '✗  O número deve ter entre 13 e 16 dígitos';
+                document.getElementById('prev-bandeira').textContent = 'Inválido';
+                ['i-bandeira','i-setor','i-banco','i-digitos'].forEach(id => document.getElementById(id).textContent = '—');
+                return;
+            }
+
+            const nums = digits.split('').map(Number);
+            const valido = luhn(nums);
+            const bandeira = identificarBandeira(digits);
+            const setor = identificarSetor(digits[0]);
+            const banco = identificarBanco(digits);
+
+            if (valido) {
+                statusBar.className = 'status-bar valido';
+                statusBar.textContent = '✓  Cartão Matematicamente Válido (Luhn OK)';
+            } else {
+                statusBar.className = 'status-bar invalido';
+                statusBar.textContent = '✗  Cartão Inválido — falha no algoritmo de Luhn';
+            }
+
+            document.getElementById('i-bandeira').textContent  = bandeira;
+            document.getElementById('i-setor').textContent    = setor;
+            document.getElementById('i-banco').textContent    = banco;
+            document.getElementById('i-digitos').textContent  = digits.length + ' dígitos';
+            document.getElementById('prev-bandeira').textContent = bandeira + (valido ? ' ✓' : ' ✗');
+        }
+    </script>
+</body>
+</html>

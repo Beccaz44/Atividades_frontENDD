@@ -1,0 +1,136 @@
+/* ===== RESET E BASE ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Georgia', serif;
+  background: #f0f4f8;
+  color: #2d3748;
+  line-height: 1.8;
+}
+
+/* ===== HEADER ===== */
+header {
+  background: linear-gradient(135deg, #1a3a5c 0%, #2e7d32 100%);
+  color: #ffffff;
+  text-align: center;
+  padding: 48px 24px 0 24px;
+}
+
+header h1 {
+  font-size: 2.8rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.subtitulo {
+  font-size: 1.1rem;
+  color: #c8e6c9;
+  margin-bottom: 32px;
+}
+
+/* ===== NAV ===== */
+nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  background-color: rgba(0, 0, 0, 0.25);
+  padding: 14px 20px;
+  border-radius: 12px 12px 0 0;
+}
+
+nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: bold;
+  padding: 8px 18px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.12);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+
+
+/* ===== MAIN ===== */
+main {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ===== SECTIONS / CARDS ===== */
+.card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 32px 36px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  border-left: 6px solid #2e7d32;
+  transition: transform 0.2s;
+}
+
+
+
+.card h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1a3a5c;
+  margin-bottom: 14px;
+  text-align: left;
+}
+
+.card p {
+  font-size: 1rem;
+  color: #4a5568;
+  text-align: justify;
+}
+
+/* ===== BOTÃO ===== */
+button#btnTabela {
+  margin-top: 18px;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #2e7d32;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+button#btnTabela:hover {
+  background-color: #1a3a5c;
+  transform: scale(1.04);
+}
+
+/* ===== CONTAINER DA TABELA ===== */
+#containerTabela {
+  margin-top: 24px;
+  text-align: center;
+}
+
+#containerTabela img {
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border: 3px solid #2e7d32;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  padding: 24px;
+  background-color: #1a3a5c;
+  color: #a0aec0;
+  font-size: 0.85rem;
+  margin-top: 20px;
+}
